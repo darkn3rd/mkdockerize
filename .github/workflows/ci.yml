@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: ./mkdockerize.sh build
+
+      - name: Test produce
+        run: |
+          git clone https://github.com/mkdocs/mkdocs.git test-mkdocs
+          ./mkdockerize.sh produce ./test-mkdocs/docs > site.tar.gz
+          ls -lh site.tar.gz
+
+      - name: Test serve
+        run: |
+          cat site.tar.gz | ./mkdockerize.sh serve &
+          sleep 10
+          curl -f http://localhost:8000 || (echo "MkDocs did not serve correctly" && exit 1)
