@@ -34,7 +34,7 @@ vagrant ssh
 # run commands from install_docker.sh
 cd /vagrant
 # run through steps above
-./mkdocerize.sh build
+./mkdockerize.sh build
 ./mkdockerize.sh produce ./test > test.tgz
 cat test.tgz | ./mkdockerize.sh serve
 ```

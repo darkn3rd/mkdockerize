@@ -18,12 +18,11 @@ jobs:
 
       - name: Test produce
         run: |
-          git clone https://github.com/mkdocs/mkdocs.git test-mkdocs
-          ./mkdockerize.sh produce ./test-mkdocs/docs > site.tar.gz
-          ls -lh site.tar.gz
+          ./mkdockerize.sh produce ./test > test.tgz
+          ls -lh test.tgz
 
       - name: Test serve
         run: |
-          cat site.tar.gz | ./mkdockerize.sh serve &
+          cat test.tgz | ./mkdockerize.sh serve &
           sleep 10
           curl -f http://localhost:8000 || (echo "MkDocs did not serve correctly" && exit 1)
