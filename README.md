@@ -29,12 +29,22 @@ This requires Docker Engine and ability to run `docker` commands.
 A Vagrant environment is included.  If you like to use this (tested on MacOS Intel), you can run:
 
 ```bash
+# download Ubuntu 22.04 and launch VM
 vagrant up
+# log into Ubuntu system
 vagrant ssh 
-# run commands from install_docker.sh
+# IMPORTANT: Install Docker
+#   See: install_docker.sh
+
+# Manually Test 
 cd /vagrant
 # run through steps above
 ./mkdockerize.sh build
 ./mkdockerize.sh produce ./test > test.tgz
 cat test.tgz | ./mkdockerize.sh serve
+
+# Testing CI workflow
+curl -s https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+cd /vagrant
+~/bin/act
 ```
